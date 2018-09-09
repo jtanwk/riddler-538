@@ -6,21 +6,20 @@
 # you get $10 a week
 # how long until you get all 100 cards?
 
-import random
+import numpy.random
 import time
 
 def buy_pack(num_cards, card_set):
     # select 10 random cards without duplication
-    pack_cards = random.sample([x for x in range(1, num_cards + 1)], k = 10)
+    pack_cards = numpy.random.randint(1, 101, size = 10)
 
     # remove cards in pack from set once collected
     for card in pack_cards:
-        if card in card_set:
-            card_set.remove(card)
+        card_set.discard(card)
 
 def collect_cards(num_cards):
     # initialize 100 unique cards using a set
-    cards_left = set([x for x in range(1, num_cards + 1)])
+    cards_left = set([x for x in range(num_cards)])
 
     # loop until 0 cards are left
     num_packs = 0
