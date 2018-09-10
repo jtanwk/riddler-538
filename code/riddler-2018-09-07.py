@@ -1,50 +1,30 @@
 # Riddler - Sep 7, 2018
 # https://fivethirtyeight.com/features/id-like-to-use-my-riddler-lifeline/
 
-# 100 unique cards in a set
-# cards are sold in packs of 10 for $1, no dupes in each pack
-# you get $10 a week
-# how long until you get all 100 cards?
-
 import numpy.random
 import time
 
-def buy_pack(num_cards, card_set):
-    # select 10 random cards without duplication
-    pack_cards = numpy.random.randint(1, 101, size = 10)
-
-    # remove cards in pack from set once collected
-    for card in pack_cards:
-        card_set.discard(card)
-
-def collect_cards(num_cards):
-    # initialize 100 unique cards using a set
-    cards_left = set([x for x in range(num_cards)])
-
-    # loop until 0 cards are left
-    num_packs = 0
-
-    while cards_left:
-        buy_pack(num_cards, cards_left)
-        num_packs += 1
-
-    return num_packs
-
-# loop over n card runs
+# main parameters
 num_simulations = 10000
-num_cards = 100
-
-# pre-allocate list
-card_runs = [None] * num_simulations
+card_runs = [None] * num_simulations    # stores num_packs for each run
+total_cards = 100                       # number of cards to collect
 
 for i in range(num_simulations):
-   card_runs[i] = collect_cards(num_cards)
+    cards_collected = set()     # stores cards in current run
+    num_packs = 0
+
+    while len(cards_collected) < total_cards:
+        pack_cards = numpy.random.randint(1, 101, size = 10)
+        cards_collected.update(pack_cards)
+
+        num_packs += 1
+
+    card_runs[i] = num_packs
 
 # get mean number of packs needed to collect all cards
 mean_packs = sum(card_runs) / num_simulations
-
 num_weeks = mean_packs/10
 
-print(f"After {num_simulations} simulations, all {num_cards} cards were collected in {mean_packs} packs.")
+print(f"After {num_simulations} simulations, all {total_cards} cards were collected in {mean_packs} packs.")
 print(f"That's {num_weeks} weeks!")
 print(f"Time taken: {time.perf_counter()} s")
