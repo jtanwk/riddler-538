@@ -72,7 +72,6 @@ def score_wildcard_set(input_set, wordlist=WORDLIST):
         sub_scores.append(score_set(substituted))
 
     best_score, best_sub = sorted(zip(sub_scores, sub_options))[-1]
-    # print(f"Best substitution for '@' and '#' were {best_sub} respectively")
 
     return best_score
 
@@ -109,7 +108,7 @@ def main():
             best_score = score
             best_tileset = tiles
 
-        print(f'Generating {i+1} out of {NUM_TRIALS} tilesets', end='\r')
+        print('Generating %d out of %d tilesets' % (i+1, NUM_TRIALS), end='\r')
 
     # SAVE RESULTS
     if not os.path.exists(LOG_FILE):
