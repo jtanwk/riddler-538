@@ -93,7 +93,7 @@ def get_score(input_set, wordlist=WORDLIST):
 
 def main():
 
-    NUM_TRIALS = 10^6
+    NUM_TRIALS = 1000000
     LOG_FILE = 'tiles.txt'
 
     # LOOP
