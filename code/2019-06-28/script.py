@@ -96,10 +96,19 @@ def main():
     NUM_TRIALS = 1000000
     LOG_FILE = 'tiles.txt'
 
-    # LOOP
+    # Create log file
+    if not os.path.exists(LOG_FILE):
+        Path(LOG_FILE).touch()
+    else:
+        os.remove(LOG_FILE)
+        Path(LOG_FILE).touch()
+
+    # Loop
     best_score = 0
     best_tileset = ''
     for i in range(NUM_TRIALS):
+        print('Generating %d out of %d tilesets' % (i+1, NUM_TRIALS), end='\r')
+
         tiles = get_tilestring(TILES)
         ngrams = get_ngrams(tiles, 15)
         score = get_score(ngrams)
@@ -108,18 +117,11 @@ def main():
             best_score = score
             best_tileset = tiles
 
-        print('Generating %d out of %d tilesets' % (i+1, NUM_TRIALS), end='\r')
-
-    # SAVE RESULTS
-    if not os.path.exists(LOG_FILE):
-        Path(LOG_FILE).touch()
-    else:
-        os.remove(LOG_FILE)
-        Path(LOG_FILE).touch()
-
-    with open(LOG_FILE, 'w') as f:
-        f.write('BEST TILESET: ' + best_tileset + '\n')
-        f.write('BEST SCORE: ' + str(best_score))
+            # Save results
+            with open(LOG_FILE, 'w') as f:
+                f.write('Iterations completed: ' + str(i + 1))
+                f.write('BEST TILESET: ' + best_tileset + '\n')
+                f.write('BEST SCORE: ' + str(best_score))
 
 
 if __name__ == "__main__":
